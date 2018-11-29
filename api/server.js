@@ -10,14 +10,16 @@ app.use(bodyParser.json());
 
 app.use("/healthcheck", require("./routes/index").router);
 
+//The routes we will be using - see for routes for an example
+//app.use("/tests", require("./routes/tests"))
+
 //When there's a problem, this is called
 app.use((err, req, res, next) => {
-  console.log("error", err);
-  // if (err.name === "UnauthorizedError") {
-  //   const errors = [{ message: "unauthorized" }];
+  if (err.name === "UnauthorizedError") {
+    const errors = [{ message: "unauthorized" }];
 
-  //   res.status(401).json({ errors });
-  // }
+    res.status(401).json({ errors });
+  }
 });
 
 module.exports = app;
