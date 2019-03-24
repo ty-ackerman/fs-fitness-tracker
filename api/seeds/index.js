@@ -42,9 +42,9 @@ const makeSeeds = async () => {
 	await Promise.all(exercises.map((exercise) => exercise.save()));
 	await Promise.all(modifications.map((modification) => modification.save()));
 	await Promise.all(loggedExercises.map((loggedExercise) => loggedExercise.save()));
-	// await Promise.all(workouts.map((workout) => workout.save()));
+	await Promise.all(workouts.map((workout) => workout.save()));
 	//this is commented out, but if you just have on seed to save (no array) use this
-	await workouts.save();
+	// await workouts.save();
 	//disconnect from db
 	mongoose.connection.close();
 };

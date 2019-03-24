@@ -11,4 +11,14 @@ router.get('/', async (req, res, next) => {
 	}
 });
 
+router.get('/:workout_id', async (req, res, next) => {
+	try {
+		const { workout_id } = req.params;
+		const docs = await Workout.findById(workout_id);
+		res.status(200).send({ data: docs });
+	} catch (err) {
+		next(err);
+	}
+});
+
 module.exports = router;
