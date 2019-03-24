@@ -1,8 +1,8 @@
 //Import all models
 const Exercise = require('../models/Exercise');
 const Modification = require('../models/Modification');
-const LoggedExercise = require('../models/LoggedExercise');
-const Workout = require('../models/Workout');
+const { LoggedExercise } = require('../models/LoggedExercise');
+const { Workout } = require('../models/Workout');
 
 //import created seeds
 const exercises = require('./exercises');

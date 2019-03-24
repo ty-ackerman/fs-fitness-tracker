@@ -23,4 +23,4 @@ const loggedExerciseSchema = new Schema({
 
 const LoggedExercise = model('LoggedExercise', loggedExerciseSchema);
 
-module.exports = LoggedExercise;
+module.exports = { LoggedExercise, loggedExerciseSchema };

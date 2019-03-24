@@ -1,9 +1,9 @@
 const { Schema, model } = require('mongoose');
-const Workout = require('./Workout');
+const { workoutSchema } = require('./Workout');
 
 const weekSchema = new Schema({
 	week: { type: Number, required: true },
-	days: [ Workout ],
+	days: [ workoutSchema ],
 	description: { type: String }
 });
 

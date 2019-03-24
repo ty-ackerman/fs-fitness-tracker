@@ -1,4 +1,4 @@
-const LoggedExercise = require('../models/LoggedExercise');
+const { LoggedExercise } = require('../models/LoggedExercise');
 const exercises = require('./exercises');
 const modifications = require('./modifications');
 

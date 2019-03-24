@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const LoggedExercise = require('../models/LoggedExercise');
+const { LoggedExercise } = require('../models/LoggedExercise');
 
 router.get('/', async (req, res, next) => {
 	try {
