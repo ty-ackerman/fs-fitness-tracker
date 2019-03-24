@@ -4,7 +4,7 @@ const { Workout } = require('../models/Workout');
 
 router.get('/', async (req, res, next) => {
 	try {
-		const docs = await Workout.find();
+		const docs = await Workout.find().populate('exercises.exercise').populate('exercises.modification');
 		res.status(200).send({ data: docs });
 	} catch (err) {
 		next(err);
