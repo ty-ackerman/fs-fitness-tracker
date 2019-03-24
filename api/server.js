@@ -13,6 +13,8 @@ app.use('/exercises', require('./routes/loggedExercises'));
 app.use('/all-exercises', require('./routes/exercises'));
 app.use('/modifications', require('./routes/modifications'));
 app.use('/workouts', require('./routes/workouts'));
+app.use('/weeks', require('./routes/weeks'));
+
 //The routes we will be using - see for routes for an example
 //app.use("/tests", require("./routes/tests"))
 

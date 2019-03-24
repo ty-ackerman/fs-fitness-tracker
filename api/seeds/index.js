@@ -3,12 +3,14 @@ const Exercise = require('../models/Exercise');
 const Modification = require('../models/Modification');
 const { LoggedExercise } = require('../models/LoggedExercise');
 const { Workout } = require('../models/Workout');
+const Week = require('../models/Week');
 
 //import created seeds
 const exercises = require('./exercises');
 const modifications = require('./modifications');
 const loggedExercises = require('./loggedExercises');
 const workouts = require('./workouts');
+const weeks = require('./weeks');
 
 const mongoose = require('mongoose');
 
@@ -28,6 +30,9 @@ const truncateDatabaseLoggedExercise = async () => {
 const truncateDatabaseWorkout = async () => {
 	return Promise.all([ Workout.deleteMany() ]);
 };
+const truncateDatabaseWeek = async () => {
+	return Promise.all([ Week.deleteMany() ]);
+};
 
 //
 const makeSeeds = async () => {
@@ -38,11 +43,15 @@ const makeSeeds = async () => {
 	await truncateDatabaseModification();
 	await truncateDatabaseLoggedExercise();
 	await truncateDatabaseWorkout();
+	await truncateDatabaseWeek();
+
 	//iterate through array of seeds and save
 	await Promise.all(exercises.map((exercise) => exercise.save()));
 	await Promise.all(modifications.map((modification) => modification.save()));
 	await Promise.all(loggedExercises.map((loggedExercise) => loggedExercise.save()));
 	await Promise.all(workouts.map((workout) => workout.save()));
+	await Promise.all(weeks.map((week) => week.save()));
+
 	//this is commented out, but if you just have on seed to save (no array) use this
 	// await workouts.save();
 	//disconnect from db

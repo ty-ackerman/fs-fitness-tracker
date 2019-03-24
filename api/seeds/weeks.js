@@ -5,21 +5,21 @@ const weeks = [];
 
 const week1 = new Week({
 	week: 1,
-	workouts
+	days: workouts
 });
 
 weeks.push(week1);
 
 const week2 = new Week({
 	week: 2,
-	workouts
+	days: workouts
 });
 
 weeks.push(week2);
 
 const week3 = new Week({
 	week: 3,
-	workouts
+	days: workouts
 });
 
 weeks.push(week3);
