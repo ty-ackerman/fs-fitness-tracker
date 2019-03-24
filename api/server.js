@@ -8,8 +8,11 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use('/exercises', require('./routes/loggedExercises').router);
-
+app.use('/healthcheck', require('./routes/index').router);
+app.use('/exercises', require('./routes/loggedExercises'));
+app.use('/all-exercises', require('./routes/exercises'));
+app.use('/modifications', require('./routes/modifications'));
+app.use('/workouts', require('./routes/workouts'));
 //The routes we will be using - see for routes for an example
 //app.use("/tests", require("./routes/tests"))
 
