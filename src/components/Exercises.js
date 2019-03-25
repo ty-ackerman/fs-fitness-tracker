@@ -29,7 +29,7 @@ export class Exercises extends Component {
 						})}
 					</ul>
 					<div>
-						<Link to="/">Back Home</Link>
+						<Link to={`/${this.props.match.params.week_id}`}>Back</Link>
 					</div>
 				</div>
 			);
@@ -38,7 +38,7 @@ export class Exercises extends Component {
 			<div>
 				<h1>Loading</h1>
 				<div>
-					<Link to="/">Back Home</Link>
+					<Link to={`/${this.props.match.params.week_id}`}>Back</Link>
 				</div>
 			</div>
 		);

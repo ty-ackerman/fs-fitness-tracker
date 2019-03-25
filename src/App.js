@@ -12,7 +12,7 @@ class App extends Component {
 				<div className="App">
 					<Switch>
 						<Route exact path="/" component={WeekSelector} />
-						<Route path="/workout/:day_id" component={Exercises} />
+						<Route path="/:week_id/:day_id" component={Exercises} />
 						<Route path="/:week_id" component={DaySelector} />
 					</Switch>
 				</div>

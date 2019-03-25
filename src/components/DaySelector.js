@@ -27,7 +27,9 @@ export class DaySelector extends Component {
 						{days.map((day, index) => {
 							return (
 								<li>
-									<Link to={`/workout/${day._id}`}>{`Day ${day.day} - ${day.name}`}</Link>
+									<Link
+										to={`/${this.props.match.params.week_id}/${day._id}`}
+									>{`Day ${day.day} - ${day.name}`}</Link>
 								</li>
 							);
 						})}
