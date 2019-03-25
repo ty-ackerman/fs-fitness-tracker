@@ -4,8 +4,7 @@ import axios from 'axios';
 
 export class DaySelector extends Component {
 	state = {
-		days: [],
-		url: null
+		days: []
 	};
 
 	getDays = async () => {
@@ -14,28 +13,21 @@ export class DaySelector extends Component {
 		this.setState({ days: res.data.data.days });
 	};
 
-	getUrl = () => {
-		const { url } = this.props.match;
-		this.setState({ url });
-	};
-
 	componentDidMount() {
 		this.getDays();
-		this.getUrl();
 	}
 
 	render() {
-		const { days, url } = this.state;
+		const { days } = this.state;
 		if (days) {
 			return (
 				<div>
 					<h1>Day Selector</h1>
 					<ul>
 						{days.map((day, index) => {
-							const newUrl = `/workout/${day._id}`;
 							return (
-								<li onClick={() => this.props.getPrevPath(url, newUrl)}>
-									{`Day ${day.day} - ${day.name}`}
+								<li>
+									<Link to={`/workout/${day._id}`}>{`Day ${day.day} - ${day.name}`}</Link>
 								</li>
 							);
 						})}

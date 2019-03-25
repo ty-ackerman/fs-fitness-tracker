@@ -6,15 +6,6 @@ import DaySelector from './components/DaySelector';
 import Exercises from './components/Exercises';
 
 class App extends Component {
-	state = {
-		prevPath: '/'
-	};
-
-	getPrevPath = async (oldUrl, newUrl) => {
-		console.log(newUrl);
-		await this.setState({ prevPath: oldUrl });
-	};
-
 	render() {
 		return (
 			<Router>
@@ -22,12 +13,7 @@ class App extends Component {
 					<Switch>
 						<Route exact path="/" component={WeekSelector} />
 						<Route path="/workout/:day_id" component={Exercises} />
-						<Route
-							path="/:week_id"
-							render={(props) => (
-								<DaySelector {...props} getPrevPath={this.getPrevPath} prevPath={this.state.prevPath} />
-							)}
-						/>
+						<Route path="/:week_id" component={DaySelector} />
 					</Switch>
 				</div>
 			</Router>
