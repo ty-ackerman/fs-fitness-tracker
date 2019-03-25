@@ -11,4 +11,12 @@ const workout = new Workout({
 
 workouts.push(workout);
 
+const workout2 = new Workout({
+	day: 2,
+	name: 'Just the legs',
+	exercises: loggedExercises
+});
+
+workouts.push(workout2);
+
 module.exports = workouts;

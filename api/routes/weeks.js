@@ -11,7 +11,7 @@ router.get('/', async (req, res, next) => {
 	}
 });
 
-router.get('/week_id', async (req, res, next) => {
+router.get('/:week_id', async (req, res, next) => {
 	try {
 		const { week_id } = req.params;
 		const docs = await Week.findById(week_id)
