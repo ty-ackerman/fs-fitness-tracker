@@ -5,18 +5,22 @@ import AddDay from './AddDay';
 
 export class DaySelector extends Component {
 	state = {
+		currentWeek: null,
 		days: [],
 		displayPopup: false
 	};
 
-	getDays = async () => {
+	getCurrentWeek = async () => {
 		const { week_id } = this.props.match.params;
-		const res = await axios.get(`/weeks/${week_id}`);
-		this.setState({ days: res.data.data.days });
+		const currentWeek = await axios.get(`/weeks/${week_id}`);
+		this.setState({
+			currentWeek: currentWeek.data.data,
+			days: currentWeek.data.data.days
+		});
 	};
 
 	componentDidMount() {
-		this.getDays();
+		this.getCurrentWeek();
 	}
 
 	togglePopup = () => {
@@ -25,15 +29,15 @@ export class DaySelector extends Component {
 	};
 
 	render() {
-		const { days, displayPopup } = this.state;
-		if (days) {
+		const { days, displayPopup, currentWeek } = this.state;
+		if (days && currentWeek) {
 			return (
 				<div>
-					<h1>Day Selector</h1>
+					<h1>{`Week ${currentWeek.week}`}</h1>
 					<ul>
 						{days.map((day, index) => {
 							return (
-								<li>
+								<li key={index}>
 									<Link
 										to={`/${this.props.match.params.week_id}/${day._id}`}
 									>{`Day ${day.day} - ${day.name}`}</Link>
@@ -49,6 +53,7 @@ export class DaySelector extends Component {
 					</div>
 					{displayPopup ? (
 						<AddDay
+							days={this.state.days}
 							week_id={this.props.match.params}
 							togglePopup={this.togglePopup}
 							getDays={this.getDays}

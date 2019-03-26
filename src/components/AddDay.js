@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export class AddDay extends Component {
 	state = {
+		days: this.props.days,
 		day: null,
 		name: null,
 		exercises: []
@@ -16,10 +17,10 @@ export class AddDay extends Component {
 
 	addDay = async (e) => {
 		e.preventDefault();
-		const { getDays, togglePopup } = this.props;
+		const { getDays, togglePopup, week_id } = this.props;
 		try {
 			const { day, name } = this.state;
-			await axios.post('/workouts', { day, name });
+			await axios.patch(`/weeks/${week_id}`, { day, name });
 			await getDays();
 			togglePopup();
 		} catch (err) {
@@ -34,7 +35,15 @@ export class AddDay extends Component {
 				<form onSubmit={this.addDay}>
 					<label htmlFor="day">
 						Day Number
-						<input onChange={this.handleChange} type="number" name="day" id="day" min={1} ref="day" />
+						<input
+							onChange={this.handleChange}
+							type="number"
+							name="day"
+							id="day"
+							min={1}
+							defaultValue={this.state.days.length + 1}
+							ref="day"
+						/>
 					</label>
 					<br />
 					<label htmlFor="name">

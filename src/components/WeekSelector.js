@@ -25,7 +25,6 @@ export class WeekSelector extends Component {
 	};
 
 	enterNewWeek = (newWeek) => {
-		console.log(newWeek);
 		const { _id } = newWeek.data.data[0];
 		this.props.history.push(`/${_id}`);
 	};
