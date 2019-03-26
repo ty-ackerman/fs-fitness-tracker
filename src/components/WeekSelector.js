@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import AddWeek from './AddWeek';
 
 export class WeekSelector extends Component {
 	state = {
-		weeks: []
+		weeks: [],
+		displayPopup: false
 	};
 	refresh = async () => {
 		const res = await axios.get('/weeks');
@@ -13,11 +15,22 @@ export class WeekSelector extends Component {
 		});
 	};
 
-	componentDidMount() {
+	async componentDidMount() {
 		this.refresh();
 	}
+
+	togglePopup = () => {
+		const { displayPopup } = this.state;
+		this.setState({ displayPopup: !displayPopup });
+	};
+
+	enterNewWeek = (newWeek) => {
+		console.log(newWeek);
+		const { _id } = newWeek.data.data[0];
+		this.props.history.push(`/${_id}`);
+	};
 	render() {
-		const { weeks } = this.state;
+		const { weeks, displayPopup } = this.state;
 		if (weeks.length) {
 			return (
 				<div>
@@ -25,12 +38,21 @@ export class WeekSelector extends Component {
 					<ul>
 						{weeks.map((week, index) => {
 							return (
-								<li>
-									<Link key={index} to={`${week._id}`}>{`Week ${week.week}`}</Link>
+								<li key={index}>
+									<Link to={`${week._id}`}>{`Week ${week.week}`}</Link>
 								</li>
 							);
 						})}
 					</ul>
+					<button onClick={this.togglePopup}>Add Week</button>
+					{displayPopup ? (
+						<AddWeek
+							refresh={this.refresh}
+							enterNewWeek={this.enterNewWeek}
+							weeks={weeks}
+							togglePopup={this.togglePopup}
+						/>
+					) : null}
 				</div>
 			);
 		}

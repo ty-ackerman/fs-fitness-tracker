@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import AddDay from './AddDay';
 
 export class DaySelector extends Component {
 	state = {
-		days: []
+		days: [],
+		displayPopup: false
 	};
 
 	getDays = async () => {
@@ -17,8 +19,13 @@ export class DaySelector extends Component {
 		this.getDays();
 	}
 
+	togglePopup = () => {
+		const { displayPopup } = this.state;
+		this.setState({ displayPopup: !displayPopup });
+	};
+
 	render() {
-		const { days } = this.state;
+		const { days, displayPopup } = this.state;
 		if (days) {
 			return (
 				<div>
@@ -35,8 +42,18 @@ export class DaySelector extends Component {
 						})}
 					</ul>
 					<div>
+						<button onClick={this.togglePopup}>{displayPopup ? 'Cancel' : 'Add Day'}</button>
+					</div>
+					<div>
 						<Link to="/">Back</Link>
 					</div>
+					{displayPopup ? (
+						<AddDay
+							week_id={this.props.match.params}
+							togglePopup={this.togglePopup}
+							getDays={this.getDays}
+						/>
+					) : null}
 				</div>
 			);
 		}

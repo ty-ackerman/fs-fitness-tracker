@@ -23,4 +23,17 @@ router.get('/:workout_id', async (req, res, next) => {
 	}
 });
 
+router.post('/:workout_id', async (req, res, next) => {
+	try {
+		const { day, name } = req.body;
+		const { workout_id } = req.params;
+		const doc = new Workout({ day, name });
+		await doc.save();
+		res.status(200).send({ data: [ doc ] });
+		console.log([ doc ]);
+	} catch (err) {
+		next(err);
+	}
+});
+
 module.exports = router;

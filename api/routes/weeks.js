@@ -23,4 +23,15 @@ router.get('/:week_id', async (req, res, next) => {
 	}
 });
 
+router.post('/', async (req, res, next) => {
+	try {
+		const { week } = req.body;
+		const doc = new Week({ week });
+		await doc.save();
+		res.status(200).send({ data: [ doc ] });
+	} catch (err) {
+		next(err);
+	}
+});
+
 module.exports = router;
