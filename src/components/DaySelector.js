@@ -12,6 +12,7 @@ export class DaySelector extends Component {
 
 	getCurrentWeek = async () => {
 		const { week_id } = this.props.match.params;
+		console.log(week_id);
 		const currentWeek = await axios.get(`/weeks/${week_id}`);
 		this.setState({
 			currentWeek: currentWeek.data.data,
@@ -54,9 +55,9 @@ export class DaySelector extends Component {
 					{displayPopup ? (
 						<AddDay
 							days={this.state.days}
-							week_id={this.props.match.params}
+							week_id={this.props.match.params.week_id}
 							togglePopup={this.togglePopup}
-							getDays={this.getDays}
+							getCurrentWeek={this.getCurrentWeek}
 						/>
 					) : null}
 				</div>

@@ -4,7 +4,7 @@ import axios from 'axios';
 export class AddDay extends Component {
 	state = {
 		days: this.props.days,
-		day: null,
+		day: this.props.days.length + 1,
 		name: null,
 		exercises: []
 	};
@@ -15,17 +15,28 @@ export class AddDay extends Component {
 		});
 	};
 
-	addDay = async (e) => {
-		e.preventDefault();
-		const { getDays, togglePopup, week_id } = this.props;
+	// This function will add the new workout to the /weeks/:week_id route
+	addToWorkoutRoute = async (newDay) => {
+		const { day, name, _id } = newDay.data.data;
 		try {
-			const { day, name } = this.state;
-			await axios.patch(`/weeks/${week_id}`, { day, name });
-			await getDays();
-			togglePopup();
+			await axios.post(`/workouts/`, { day, name, _id });
 		} catch (err) {
 			console.log(err);
 		}
+	};
+
+	addDay = async (e) => {
+		e.preventDefault();
+		const { getCurrentWeek, togglePopup, week_id, days } = this.props;
+		const { day, name } = this.state;
+		try {
+			const newDay = await axios.patch(`/weeks/${week_id}`, { days, day, name });
+			await getCurrentWeek();
+			await this.addToWorkoutRoute(newDay);
+		} catch (err) {
+			console.log(err);
+		}
+		togglePopup();
 	};
 
 	render() {
@@ -48,7 +59,7 @@ export class AddDay extends Component {
 					<br />
 					<label htmlFor="name">
 						Workout Name
-						<input onChange={this.handleChange} type="text" name="name" id="name" ref="name" />
+						<input onChange={this.handleChange} type="text" name="name" id="name" ref="name" required />
 					</label>
 					<div>
 						<input type="submit" value="Create Day" />

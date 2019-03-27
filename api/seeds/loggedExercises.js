@@ -12,7 +12,7 @@ const loggedExercise1 = new LoggedExercise({
 	exercise: exercises[0],
 	modification: modifications[1],
 	comments: 'My goodness that was difficult',
-	tempo: [ 1, 0, 1, 0 ],
+	tempo: '1-0-1-0',
 	maxWeight: 100
 });
 
@@ -26,7 +26,7 @@ const loggedExercise2 = new LoggedExercise({
 	exercise: exercises[1],
 	modification: modifications[0],
 	comments: 'Personal best',
-	tempo: [ 1, 0, 1, 0 ],
+	tempo: '2-1-3-1',
 	maxWeight: 200
 });
 

@@ -21,4 +21,20 @@ router.get('/:exercise_id', async (req, res, next) => {
 	}
 });
 
+router.post('/', async (req, res, next) => {
+	try {
+		const { name, primaryMuscle, secondaryMuscle, comments } = req.body;
+		const newExercise = new Exercise({
+			name,
+			primaryMuscle,
+			secondaryMuscle,
+			comments
+		});
+		await newExercise.save();
+		res.status(200).send({ data: newExercise });
+	} catch (err) {
+		next(err);
+	}
+});
+
 module.exports = router;

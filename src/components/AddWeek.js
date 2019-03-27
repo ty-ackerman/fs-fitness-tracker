@@ -16,6 +16,7 @@ export class AddWeek extends Component {
 		const { refresh, togglePopup, enterNewWeek } = this.props;
 		try {
 			const newWeek = await axios.post('/weeks', { week });
+			console.log(newWeek);
 			await refresh();
 			togglePopup();
 			enterNewWeek(newWeek);

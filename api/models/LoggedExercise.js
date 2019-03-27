@@ -16,7 +16,7 @@ const loggedExerciseSchema = new Schema({
 		required: false
 	},
 	comments: { type: String },
-	tempo: { type: Array },
+	tempo: { type: String, default: '1-0-1-0' },
 	rest: { default: 60, type: Number, required: true },
 	maxWeight: { type: Number }
 });
