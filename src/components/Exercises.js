@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AddLoggedExercise from './AddLoggedExercise';
+import ExerciseInfo from './ExerciseInfo';
 
 export class Exercises extends Component {
 	state = {
@@ -40,9 +41,10 @@ export class Exercises extends Component {
 					<h1>{`Day ${day} - ${name}`}</h1>
 					<ul>
 						{exercises.map((exercise, index) => {
-							return <li key={index}>{exercise.exercise.name}</li>;
+							return <ExerciseInfo key={index} exercise={exercise} />;
 						})}
 					</ul>
+					<ExerciseInfo exercises={exercises} />
 					<div>
 						<button onClick={this.togglePopup}>Add Exercise</button>
 					</div>

@@ -14,6 +14,16 @@ export class AddLoggedExercise extends Component {
 		comments: ''
 	};
 
+	clearInputs = () => {
+		this.setState({
+			setsPlanned: '',
+			repsPlanned: '',
+			exercise: {},
+			modification: '',
+			comments: ''
+		});
+	};
+
 	togglePopup = () => {
 		this.setState({ displayPopup: !this.state.displayPopup });
 	};
@@ -28,11 +38,10 @@ export class AddLoggedExercise extends Component {
 		this.setState({ [e.target.name]: e.target.value });
 	};
 
-	// Starting to build out this component
-	// x1) Create form that accepts the schema params
-	// x2) The default values of the schema should be the values already submitted for the exercise
-	// x3) Maybe perform /GET request to get the _id of the exercise/modification
-	// 4) On Submit, the form will create a /PATCH request where it will take the current list of exercises and append this one to the end
+	handleRepChange = (e) => {
+		console.log(e.target.value, e.target.name)
+	}
+
 	addLoggedExercise = async (e) => {
 		e.preventDefault();
 		try {
@@ -48,14 +57,21 @@ export class AddLoggedExercise extends Component {
 				allExercises
 			});
 			await getExercises();
+			await this.clearInputs();
+			await this.props.togglePopup();
 		} catch (error) {
 			console.log(error);
 		}
 	};
-	// 5) Then perform a refresh() function to get the current exercises displayed on the UI
+	
 
 	render() {
-		const { displayPopup, exercise } = this.state;
+		const { displayPopup, exercise, setsPlanned } = this.state;
+
+		let reps = [];
+		for (let set = 0; set < setsPlanned; set++) {
+			reps.push(<p>One Set</p>)
+		}
 		return (
 			<div>
 				<h1>Add Logged Exercise</h1>
@@ -78,6 +94,7 @@ export class AddLoggedExercise extends Component {
 							defaultValue={exercise.name ? exercise.name : null}
 							id="exercise"
 							name="exercise"
+							required
 						/>
 					</label>
 					<br />
@@ -93,17 +110,21 @@ export class AddLoggedExercise extends Component {
 						/>
 					</label>
 					<br />
-					<label htmlFor="repsPlanned">
+					{reps.map((set, index) => {
+					return <label key={index} htmlFor="repsPlanned">
 						Reps
 						<input
-							onChange={this.handleChange}
+							onChange={this.handleRepChange}
 							type="number"
 							id="repsPlanned"
-							name="repsPlanned"
+							name={`repsPlanned${index}`}
 							min={0}
 							required
 						/>
 					</label>
+
+					})}
+				
 					<label htmlFor="tempo">
 						Tempo
 						<input onChange={this.handleChange} type="text" id="tempo" name="tempo" placeholder="1-0-1-0" />
