@@ -5,8 +5,8 @@ import axios from 'axios';
 export class AddLoggedExercise extends Component {
 	state = {
 		displayPopup: false,
-		setsPlanned: '',
-		repsPlanned: '',
+		setsPlanned: 3,
+		repsPlanned: [],
 		exercise: {},
 		modification: '',
 		tempo: '1-0-1-0',
@@ -39,7 +39,9 @@ export class AddLoggedExercise extends Component {
 	};
 
 	handleRepChange = (e) => {
-		console.log(e.target.value, e.target.name)
+		const {repsPlanned} = this.state
+		repsPlanned[parseInt(e.target.name)] = parseInt(e.target.value);
+		this.setState({repsPlanned})
 	}
 
 	addLoggedExercise = async (e) => {
@@ -49,7 +51,7 @@ export class AddLoggedExercise extends Component {
 			const { currentDayId, allExercises, getExercises } = this.props;
 			const newLoggedExercise = await axios.patch(`/workouts/${currentDayId}`, {
 				setsPlanned: parseInt(setsPlanned),
-				repsPlanned: parseInt(repsPlanned),
+				repsPlanned: repsPlanned,
 				exercise,
 				modification,
 				tempo,
@@ -105,7 +107,9 @@ export class AddLoggedExercise extends Component {
 							type="number"
 							id="setsPlanned"
 							name="setsPlanned"
-							min={0}
+							defaultValue={3}
+							min={1}
+							max={10}
 							required
 						/>
 					</label>
@@ -116,9 +120,9 @@ export class AddLoggedExercise extends Component {
 						<input
 							onChange={this.handleRepChange}
 							type="number"
-							id="repsPlanned"
-							name={`repsPlanned${index}`}
-							min={0}
+							id={`repsPlanned${index}`}
+							name={index}
+							min={1}
 							required
 						/>
 					</label>
@@ -131,7 +135,7 @@ export class AddLoggedExercise extends Component {
 					</label>
 					<label htmlFor="rest">
 						Rest in Seconds
-						<input onChange={this.handleChange} type="number" id="rest" name="rest" defaultValue={60} />
+						<input onChange={this.handleChange} type="number" id="rest" name="rest" defaultValue={60} min={0}/>
 					</label>
 					<div>
 						<input type="submit" value="Save Exercise" />
