@@ -68,7 +68,7 @@ export class AddLoggedExercise extends Component {
 	
 
 	render() {
-		const { displayPopup, exercise, setsPlanned } = this.state;
+		const { displayPopup, exercise, setsPlanned, repsPlanned } = this.state;
 
 		let reps = [];
 		for (let set = 0; set < setsPlanned; set++) {
@@ -123,6 +123,7 @@ export class AddLoggedExercise extends Component {
 							id={`repsPlanned${index}`}
 							name={index}
 							min={1}
+							defaultValue = {(index !== 0 ? repsPlanned[0] : null)}
 							required
 						/>
 					</label>
