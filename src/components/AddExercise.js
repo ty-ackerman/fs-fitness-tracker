@@ -27,7 +27,6 @@ export class AddExercise extends Component {
 				secondaryMuscle,
 				comments
 			});
-			this.props.togglePopup();
 			this.props.getSubmittedValues(submittedValue.data.data);
 		} catch (err) {
 			console.log(err);
