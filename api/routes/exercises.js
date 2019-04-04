@@ -11,6 +11,18 @@ router.get('/', async (req, res, next) => {
 	}
 });
 
+router.get('/search/:name', async (req, res, next) => {
+	try {
+		const {name} = req.params
+		console.log(name)
+		const docs = await Exercise.find({name: {$regex: name, $options: "i"}})
+		res.status(200).send({data: docs})
+	} catch (err) {
+		next(err)
+		
+	}
+})
+
 router.get('/:exercise_id', async (req, res, next) => {
 	try {
 		const { exercise_id } = req.params;
@@ -20,6 +32,7 @@ router.get('/:exercise_id', async (req, res, next) => {
 		next(error);
 	}
 });
+
 
 router.post('/', async (req, res, next) => {
 	try {

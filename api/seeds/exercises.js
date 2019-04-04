@@ -3,17 +3,17 @@ const Exercise = require('../models/Exercise');
 const exercises = [];
 
 const exercise1 = new Exercise({
-	name: 'Bench Press',
-	primaryMuscle: 'Chest',
-	secondaryMuscle: 'Triceps',
-	comments: 'Touch chest'
+	name: 'bench press',
+	primaryMuscle: 'chest',
+	secondaryMuscle: 'triceps',
+	comments: 'touch chest'
 });
 
 exercises.push(exercise1);
 
 const exercise2 = new Exercise({
-	name: 'Dumbbell Curl',
-	primaryMuscle: 'Biceps'
+	name: 'dumbbell curl',
+	primaryMuscle: 'biceps'
 });
 
 exercises.push(exercise2);

@@ -51,7 +51,7 @@ export class AddLoggedExercise extends Component {
 			const { currentDayId, allExercises, getExercises } = this.props;
 			const newLoggedExercise = await axios.patch(`/workouts/${currentDayId}`, {
 				setsPlanned: parseInt(setsPlanned),
-				repsPlanned: repsPlanned,
+				repsPlanned,
 				exercise,
 				modification,
 				tempo,

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AddLoggedExercise from './AddLoggedExercise';
 import ExerciseInfo from './ExerciseInfo';
+import FindExercise from './FindExercise';
 
 export class Exercises extends Component {
 	state = {
@@ -52,12 +53,15 @@ export class Exercises extends Component {
 						<Link to={`/${this.props.match.params.week_id}`}>Back</Link>
 					</div>
 					{displayPopup ? (
+						<>
 						<AddLoggedExercise
 							getExercises={this.getExercises}
 							togglePopup={this.togglePopup}
 							currentDayId={currentDay._id}
 							allExercises={exercises}
 						/>
+						<FindExercise/>
+						</>
 					) : null}
 				</div>
 			);
