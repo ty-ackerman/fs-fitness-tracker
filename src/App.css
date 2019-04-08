@@ -47,3 +47,8 @@ a {
 ul {
 	padding-left: 0;
 }
+
+body {
+	color: white;
+	background: black;
+}

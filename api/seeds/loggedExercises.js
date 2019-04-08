@@ -19,10 +19,10 @@ const loggedExercise1 = new LoggedExercise({
 loggedExercises.push(loggedExercise1);
 
 const loggedExercise2 = new LoggedExercise({
-	setsPlanned: 2,
+	setsPlanned: 4,
 	repsPlanned: [ 8, 2, 2, 2 ],
 	setsActual: 3,
-	repsActual: [ 5, 8, 8, 5 ],
+	repsActual: [ 5, 8, 8 ],
 	exercise: exercises[1],
 	modification: modifications[0],
 	comments: 'Personal best',

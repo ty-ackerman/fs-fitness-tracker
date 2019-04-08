@@ -42,10 +42,11 @@ export class ExerciseInfo extends Component {
 		const { expandedView } = this.state;
 		if (exercise) {
 			return (
-				<div onClick={this.expand}>
-					<p>{exercise.exercise.name}</p>
-					{expandedView ? <ExerciseMoreDetails exercise={exercise} /> : null}
-					<button onClick={this.deleteExercise}>X</button>
+				<div>
+					<p onClick={this.expand}>{exercise.exercise.name}</p>
+					{expandedView ? (
+						<ExerciseMoreDetails deleteExercise={this.deleteExercise} exercise={exercise} />
+					) : null}
 				</div>
 			);
 		}
