@@ -1,9 +1,30 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 export class AddLoggedExercise extends Component {
+	state = {
+		// This is an array of every saved modification
+		// This is purely for UI purposes, the user won't be able to add modifications
+		modifications: []
+	};
+
+	async componentDidMount() {
+		await this.getModifications();
+	}
+
+	getModifications = async () => {
+		try {
+			const res = await axios.get('/modifications');
+			await this.setState({ modifications: res.data.data });
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	render() {
 		const { handleChange, handleRepChange } = this.props;
 		const { setsPlanned, repsPlanned, exercise } = this.props.loggedExercise;
+		const { modifications } = this.state;
 
 		let reps = [];
 		for (let set = 0; set < setsPlanned; set++) {
@@ -56,6 +77,18 @@ export class AddLoggedExercise extends Component {
 							</label>
 						);
 					})}
+					<label htmlFor="mod">
+						<select name="mod" id="mod">
+							<option value="none">None</option>
+							{modifications.map((mod, index) => {
+								return (
+									<option key={index} name={mod.name} value={mod}>
+										{mod.name}
+									</option>
+								);
+							})}
+						</select>
+					</label>
 
 					<label htmlFor="tempo">
 						Tempo
