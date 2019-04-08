@@ -36,7 +36,7 @@ router.post('/', async (req, res, next) => {
 	}
 });
 
-router.patch('/:workout_id', async (req, res, next) => {
+router.patch('/add-workout/:workout_id', async (req, res, next) => {
 	try {
 		const { setsPlanned, repsPlanned, exercise, modification, tempo, rest, allExercises } = req.body;
 		const { workout_id } = req.params;
@@ -54,6 +54,17 @@ router.patch('/:workout_id', async (req, res, next) => {
 		res.status(200).send({ data: doc });
 	} catch (err) {
 		next(err);
+	}
+});
+
+router.patch('/delete-exercise/:workout_id', async (req, res, next) => {
+	try {
+		const { workout_id } = req.params;
+		const { exercises } = req.body;
+		const doc = await Workout.findByIdAndUpdate(workout_id, { exercises });
+		res.status(200).send({ data: [ doc ] });
+	} catch (error) {
+		next(error);
 	}
 });
 

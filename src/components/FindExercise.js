@@ -47,7 +47,7 @@ export class FindExercise extends Component {
 				<form onSubmit={this.handleSubmit}>
 					<label htmlFor="name">
 						Exercise Name:
-						<input type="text" name="name" id="name" onChange={this.handleChange} required />
+						<input type="text" name="name" id="name" onChange={this.handleChange} autoComplete="off" required />
 						<input type="submit" value="Search For Exercise" />
 					</label>
 				</form>

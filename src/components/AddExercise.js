@@ -47,6 +47,7 @@ export class AddExercise extends Component {
 							name="name"
 							defaultValue="Front Squat"
 							required
+							autoComplete="off"
 						/>
 					</label>
 					<br />
@@ -59,6 +60,7 @@ export class AddExercise extends Component {
 							name="primaryMuscle"
 							defaultValue="Quadriceps"
 							required
+							autoComplete="off"
 						/>
 					</label>
 					<br />
@@ -70,6 +72,7 @@ export class AddExercise extends Component {
 							id="secondaryMuscle"
 							name="secondaryMuscle"
 							defaultValue="Hamstrings"
+							autoComplete="off"
 						/>
 					</label>
 					<br />
@@ -82,6 +85,7 @@ export class AddExercise extends Component {
 							cols="30"
 							rows="10"
 							defaultValue="Ass to the grass"
+							autoComplete="off"
 						/>
 					</label>
 					<div>

@@ -16,7 +16,7 @@ export class Exercises extends Component {
 			setsPlanned: 3,
 			repsPlanned: [],
 			exercise: null,
-			modification: '',
+			modification: 'none',
 			tempo: '1-0-1-0',
 			rest: 60,
 			comments: ''
@@ -68,7 +68,7 @@ export class Exercises extends Component {
 			setsPlanned: 3,
 			repsPlanned: [],
 			exercise: null,
-			modification: '',
+			modification: 'none',
 			tempo: '1-0-1-0',
 			rest: 60,
 			comments: ''
@@ -116,7 +116,7 @@ export class Exercises extends Component {
 			// console.log(this.state.currentDay);
 			const currentDayId = this.state.currentDay._id;
 			const allExercises = this.state.exercises;
-			const newLoggedExercise = await axios.patch(`/workouts/${currentDayId}`, {
+			const newLoggedExercise = await axios.patch(`/workouts/add-workout/${currentDayId}`, {
 				setsPlanned: parseInt(setsPlanned),
 				repsPlanned,
 				exercise,
@@ -148,7 +148,16 @@ export class Exercises extends Component {
 					<h1>{`Day ${day} - ${name}`}</h1>
 					<ul>
 						{exercises.map((exercise, index) => {
-							return <ExerciseInfo key={index} exercise={exercise} />;
+							return (
+								<ExerciseInfo
+									getExercises={this.getExercises}
+									key={index}
+									exercise={exercise}
+									index={index}
+									exercises={exercises}
+									day_id={this.state.currentDay._id}
+								/>
+							);
 						})}
 					</ul>
 					<div>

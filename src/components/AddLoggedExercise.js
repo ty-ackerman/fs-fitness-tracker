@@ -77,12 +77,12 @@ export class AddLoggedExercise extends Component {
 							</label>
 						);
 					})}
-					<label htmlFor="mod">
-						<select name="mod" id="mod">
+					<label htmlFor="modification">
+						<select name="modification" id="modification" onChange={handleChange}>
 							<option value="none">None</option>
 							{modifications.map((mod, index) => {
 								return (
-									<option key={index} name={mod.name} value={mod}>
+									<option key={index} name={mod.name} value={mod._id}>
 										{mod.name}
 									</option>
 								);

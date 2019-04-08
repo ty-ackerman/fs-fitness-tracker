@@ -21,4 +21,15 @@ router.get('/:exercise_id', async (req, res, next) => {
 	}
 });
 
+router.delete('/:exercise_id', async (req, res, next) => {
+	try {
+		const { exercise_id } = req.params;
+		console.log(exercise_id);
+		const doc = await LoggedExercise.findByIdAndRemove(exercise_id);
+		res.status(200).send({ data: [ doc ] });
+	} catch (error) {
+		next(error);
+	}
+});
+
 module.exports = router;
