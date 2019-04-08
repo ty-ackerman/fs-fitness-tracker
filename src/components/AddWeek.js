@@ -38,6 +38,7 @@ export class AddWeek extends Component {
 							name="week"
 							defaultValue={this.props.weeks.length + 1}
 							onChange={this.handleChange}
+							min={1}
 						/>
 					</label>
 					<input type="submit" value="Submit" />

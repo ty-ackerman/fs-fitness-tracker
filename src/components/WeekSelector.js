@@ -28,6 +28,10 @@ export class WeekSelector extends Component {
 		const { _id } = newWeek.data.data[0];
 		this.props.history.push(`/${_id}`);
 	};
+
+	cancelWeekAdder = () => {
+		this.setState({ displayPopup: false });
+	};
 	render() {
 		const { weeks, displayPopup } = this.state;
 		if (weeks.length) {
@@ -45,12 +49,15 @@ export class WeekSelector extends Component {
 					</ul>
 					<button onClick={this.togglePopup}>Add Week</button>
 					{displayPopup ? (
-						<AddWeek
-							refresh={this.refresh}
-							enterNewWeek={this.enterNewWeek}
-							weeks={weeks}
-							togglePopup={this.togglePopup}
-						/>
+						<React.Fragment>
+							<AddWeek
+								refresh={this.refresh}
+								enterNewWeek={this.enterNewWeek}
+								weeks={weeks}
+								togglePopup={this.togglePopup}
+							/>
+							<button onClick={this.cancelWeekAdder}>Cancel</button>
+						</React.Fragment>
 					) : null}
 				</div>
 			);

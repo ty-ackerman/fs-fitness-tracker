@@ -52,6 +52,7 @@ export class AddDay extends Component {
 							name="day"
 							id="day"
 							min={1}
+							max={7}
 							defaultValue={this.state.days.length + 1}
 							ref="day"
 						/>

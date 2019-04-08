@@ -5,6 +5,7 @@ import AddLoggedExercise from './AddLoggedExercise';
 import ExerciseInfo from './ExerciseInfo';
 import FindExercise from './FindExercise';
 import AddExercise from './AddExercise';
+import CatchAll from './CatchAll';
 
 export class Exercises extends Component {
 	state = {
@@ -19,24 +20,43 @@ export class Exercises extends Component {
 			tempo: '1-0-1-0',
 			rest: 60,
 			comments: ''
-		}
+		},
+		loading: true
 	};
 
 	getCurrentDay = async () => {
-		const { day_id } = this.props.match.params;
-		const currentDay = await axios.get(`/workouts/${day_id}`);
-		this.setState({ currentDay: currentDay.data.data });
+		try {
+			const { day_id } = this.props.match.params;
+			const currentDay = await axios({
+				method: 'get',
+				url: `/workouts/${day_id}`,
+				timeout: 3 * 1000
+			});
+			await this.setState({ currentDay: currentDay.data.data });
+			console.log(this.state.currentDay);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	getExercises = async () => {
-		const { day_id } = this.props.match.params;
-		const res = await axios.get(`/workouts/${day_id}`);
-		this.setState({ exercises: res.data.data.exercises });
+		try {
+			const { day_id } = this.props.match.params;
+			const res = await axios({
+				method: 'get',
+				url: `/workouts/${day_id}`,
+				timeout: 3 * 1000
+			});
+			this.setState({ exercises: res.data.data.exercises });
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	async componentDidMount() {
 		await this.getExercises();
 		await this.getCurrentDay();
+		this.setState({ loading: false });
 	}
 
 	togglePopup = () => {
@@ -44,14 +64,17 @@ export class Exercises extends Component {
 	};
 
 	clearInputs = () => {
+		const loggedExercise = {
+			setsPlanned: 3,
+			repsPlanned: [],
+			exercise: null,
+			modification: '',
+			tempo: '1-0-1-0',
+			rest: 60,
+			comments: ''
+		};
 		this.setState({
-			loggedExercise: {
-				setsPlanned: '',
-				repsPlanned: '',
-				exercise: {},
-				modification: '',
-				comments: ''
-			}
+			loggedExercise
 		});
 	};
 
@@ -80,6 +103,12 @@ export class Exercises extends Component {
 		this.setState({ loggedExercise });
 	};
 
+	addQueriedExercise = (exercise) => {
+		const { loggedExercise } = this.state;
+		loggedExercise.exercise = exercise;
+		this.setState({ loggedExercise });
+	};
+
 	addLoggedExercise = async (e) => {
 		e.preventDefault();
 		try {
@@ -96,7 +125,6 @@ export class Exercises extends Component {
 				rest: parseInt(rest),
 				allExercises
 			});
-			console.log(newLoggedExercise);
 			await this.getExercises();
 			await this.clearInputs();
 			await this.togglePopup();
@@ -105,8 +133,14 @@ export class Exercises extends Component {
 		}
 	};
 
+	cancelLog = () => {
+		const { loggedExercise } = this.state;
+		loggedExercise.exercise = null;
+		this.setState({ displayPopup: false, loggedExercise });
+	};
+
 	render() {
-		const { exercises, currentDay, displayPopup, loggedExercise } = this.state;
+		const { exercises, currentDay, displayPopup, loggedExercise, loading } = this.state;
 		if (exercises && currentDay) {
 			const { name, day } = currentDay;
 			return (
@@ -125,8 +159,9 @@ export class Exercises extends Component {
 					</div>
 					{displayPopup && !loggedExercise.exercise ? (
 						<React.Fragment>
-							<FindExercise />
+							<FindExercise addQueriedExercise={this.addQueriedExercise} />
 							<AddExercise getSubmittedValues={this.getSubmittedValues} />
+							<button onClick={this.cancelLog}>Cancel</button>
 						</React.Fragment>
 					) : null}
 					{displayPopup && loggedExercise.exercise ? (
@@ -137,19 +172,23 @@ export class Exercises extends Component {
 								loggedExercise={this.state.loggedExercise}
 								addLoggedExercise={this.addLoggedExercise}
 							/>
+							<button onClick={this.cancelLog}>Cancel</button>
 						</React.Fragment>
 					) : null}
 				</div>
 			);
 		}
-		return (
-			<div>
-				<h1>Loading</h1>
+		if (loading) {
+			return (
 				<div>
-					<Link to={`/${this.props.match.params.week_id}`}>Back</Link>
+					<h1>Loading</h1>
+					<div>
+						<Link to={`/${this.props.match.params.week_id}`}>Back</Link>
+					</div>
 				</div>
-			</div>
-		);
+			);
+		}
+		return <CatchAll />;
 	}
 }
 

@@ -2,26 +2,36 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AddDay from './AddDay';
+import CatchAll from './CatchAll';
 
 export class DaySelector extends Component {
 	state = {
 		currentWeek: null,
 		days: [],
-		displayPopup: false
+		displayPopup: false,
+		loading: true
 	};
 
 	getCurrentWeek = async () => {
-		const { week_id } = this.props.match.params;
-		console.log(week_id);
-		const currentWeek = await axios.get(`/weeks/${week_id}`);
-		this.setState({
-			currentWeek: currentWeek.data.data,
-			days: currentWeek.data.data.days
-		});
+		try {
+			const { week_id } = this.props.match.params;
+			const currentWeek = await axios({
+				method: 'get',
+				url: `/weeks/${week_id}`,
+				timeout: 4 * 1000
+			});
+			this.setState({
+				currentWeek: currentWeek.data.data,
+				days: currentWeek.data.data.days
+			});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
-	componentDidMount() {
-		this.getCurrentWeek();
+	async componentDidMount() {
+		await this.getCurrentWeek();
+		this.setState({ loading: false });
 	}
 
 	togglePopup = () => {
@@ -29,8 +39,12 @@ export class DaySelector extends Component {
 		this.setState({ displayPopup: !displayPopup });
 	};
 
+	cancelAddDay = () => {
+		this.setState({ displayPopup: false });
+	};
+
 	render() {
-		const { days, displayPopup, currentWeek } = this.state;
+		const { days, displayPopup, currentWeek, loading } = this.state;
 		if (days && currentWeek) {
 			return (
 				<div>
@@ -53,24 +67,30 @@ export class DaySelector extends Component {
 						<Link to="/">Back</Link>
 					</div>
 					{displayPopup ? (
-						<AddDay
-							days={this.state.days}
-							week_id={this.props.match.params.week_id}
-							togglePopup={this.togglePopup}
-							getCurrentWeek={this.getCurrentWeek}
-						/>
+						<React.Fragment>
+							<AddDay
+								days={this.state.days}
+								week_id={this.props.match.params.week_id}
+								togglePopup={this.togglePopup}
+								getCurrentWeek={this.getCurrentWeek}
+							/>
+							<button onClick={this.cancelAddDay}>Cancel</button>
+						</React.Fragment>
 					) : null}
 				</div>
 			);
 		}
-		return (
-			<div>
-				<h1>Loading</h1>
+		if (loading) {
+			return (
 				<div>
-					<Link to="/">Back</Link>
+					<h1>Loading</h1>
+					<div>
+						<Link to="/">Back</Link>
+					</div>
 				</div>
-			</div>
-		);
+			);
+		}
+		return <CatchAll />;
 	}
 }
 

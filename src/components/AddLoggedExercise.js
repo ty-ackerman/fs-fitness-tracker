@@ -22,6 +22,7 @@ export class AddLoggedExercise extends Component {
 							id="exercise"
 							name="exercise"
 							required
+							disabled
 						/>
 					</label>
 					<br />
