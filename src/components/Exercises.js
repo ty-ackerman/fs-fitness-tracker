@@ -15,6 +15,8 @@ export class Exercises extends Component {
 		loggedExercise: {
 			setsPlanned: 3,
 			repsPlanned: [],
+			repsActual: [],
+			setsActual: null,
 			exercise: null,
 			modification: 'none',
 			tempo: '1-0-1-0',
@@ -22,6 +24,18 @@ export class Exercises extends Component {
 			comments: ''
 		},
 		loading: true
+	};
+
+	formatRepsActual = () => {
+		const repsActual = [];
+		const { loggedExercise } = this.state;
+		const { setsPlanned } = loggedExercise;
+		for (let set = 0; set < setsPlanned; set++) {
+			repsActual.push({ reps: null, weight: null });
+		}
+		loggedExercise.repsActual = repsActual;
+		loggedExercise.setsActual = repsActual.length;
+		this.setState({ loggedExercise });
 	};
 
 	getCurrentDay = async () => {
@@ -112,7 +126,17 @@ export class Exercises extends Component {
 	addLoggedExercise = async (e) => {
 		e.preventDefault();
 		try {
-			const { setsPlanned, repsPlanned, exercise, modification, tempo, rest } = this.state.loggedExercise;
+			await this.formatRepsActual();
+			const {
+				setsPlanned,
+				repsPlanned,
+				repsActual,
+				setsActual,
+				exercise,
+				modification,
+				tempo,
+				rest
+			} = this.state.loggedExercise;
 			// console.log(this.state.currentDay);
 			const currentDayId = this.state.currentDay._id;
 			const allExercises = this.state.exercises;
@@ -123,11 +147,14 @@ export class Exercises extends Component {
 				modification,
 				tempo,
 				rest: parseInt(rest),
-				allExercises
+				allExercises,
+				repsActual,
+				setsActual
 			});
 			await this.getExercises();
 			await this.clearInputs();
 			await this.togglePopup();
+			console.log(newLoggedExercise.data.data);
 		} catch (error) {
 			console.log(error);
 		}

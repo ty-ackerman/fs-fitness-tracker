@@ -49,6 +49,7 @@ export class ExerciseMoreDetailsLog extends Component {
 									rep={rep}
 									day_id={this.props.day_id}
 									toggleEditView={this.toggleEditView}
+									exercise={exercise}
 								/>
 							) : (
 								<p

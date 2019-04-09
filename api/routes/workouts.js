@@ -38,17 +38,28 @@ router.post('/', async (req, res, next) => {
 
 router.patch('/add-workout/:workout_id', async (req, res, next) => {
 	try {
-		const { setsPlanned, repsPlanned, exercise, modification, tempo, rest, allExercises } = req.body;
+		const {
+			setsPlanned,
+			repsPlanned,
+			repsActual,
+			exercise,
+			modification,
+			tempo,
+			rest,
+			allExercises,
+			setsActual
+		} = req.body;
 		const { workout_id } = req.params;
 		const newLoggedExercise = new LoggedExercise({
 			setsPlanned,
 			repsPlanned,
+			repsActual,
 			exercise,
 			modification,
 			tempo,
-			rest
+			rest,
+			setsActual
 		});
-		console.log(newLoggedExercise);
 		allExercises.push(newLoggedExercise);
 		const doc = await Workout.findByIdAndUpdate(workout_id, { exercises: allExercises });
 		res.status(200).send({ data: doc });

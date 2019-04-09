@@ -16,10 +16,10 @@ export class RepEdit extends Component {
 	handleSubmit = async (e) => {
 		e.preventDefault();
 		const { reps, weight } = this.state;
-		const { day_id, toggleEditView, index } = this.props;
+		const { exercise, toggleEditView, index } = this.props;
 		try {
-			// const res = await axios.patch(`/exercises/log-exercise/${day_id}`, { reps, weight });
-			// console.log(res);
+			const res = await axios.patch(`/exercises/log-exercise/${exercise._id}`, { reps, weight });
+			console.log(res.data.data);
 			toggleEditView(index);
 		} catch (error) {
 			console.log(error);
