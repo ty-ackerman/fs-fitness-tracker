@@ -16,7 +16,6 @@ export class ExerciseMoreDetailsLog extends Component {
 		repsPlanned.map((rep, index) => {
 			editView.push({ edit: false });
 		});
-		// console.log(editView);
 		this.setState({ editView });
 	};
 
@@ -33,23 +32,27 @@ export class ExerciseMoreDetailsLog extends Component {
 		// 4 - User doesn't do planned amount of reps (maybe just leave blank?)
 		const { exercise } = this.props;
 		const { editView } = this.state;
-		return (
-			<div>
-				Click the Set to Log:
+		if (editView.length) {
+			return (
 				<div>
-					{exercise.repsPlanned.map((rep, index) => {
-						// return editView[index] ? null : (
-						return (
-							<p
-								onClick={() => this.toggleEditView(index)}
-								style={{ color: 'limegreen', cursor: 'pointer' }}
-								key={index}
-							>{`Set #${index + 1} - Target Reps: ${rep}`}</p>
-						);
-					})}
+					Click the Set to Log:
+					<div>
+						{exercise.repsPlanned.map((rep, index) => {
+							return editView[index].edit ? (
+								<div key={index}>Works</div>
+							) : (
+								<p
+									onClick={() => this.toggleEditView(index)}
+									style={{ color: 'limegreen', cursor: 'pointer' }}
+									key={index}
+								>{`Set #${index + 1} - Target Reps: ${rep}`}</p>
+							);
+						})}
+					</div>
 				</div>
-			</div>
-		);
+			);
+		}
+		return <div>Loading</div>;
 	}
 }
 
