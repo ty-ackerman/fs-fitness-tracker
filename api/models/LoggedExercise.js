@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose');
 const loggedExerciseSchema = new Schema({
 	setsPlanned: { type: Number, min: 1, required: true },
 	repsPlanned: { type: Array, required: true },
-	setsActual: { type: Number, min: 1 },
+	setsActual: { type: Number, min: 0 },
 	repsActual: { type: Array },
 	exercise: {
 		ref: 'Exercise',

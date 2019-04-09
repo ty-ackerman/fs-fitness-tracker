@@ -6,9 +6,9 @@ const loggedExercises = [];
 
 const loggedExercise1 = new LoggedExercise({
 	setsPlanned: 4,
-	repsPlanned: [ 10, 8, 8, 6 ],
-	setsActual: 3,
-	repsActual: [ 10, 8, 8, 5 ],
+	repsPlanned: [ 8, 2, 2, 2 ],
+	setsActual: 0,
+	repsActual: [],
 	exercise: exercises[0],
 	modification: modifications[1],
 	comments: 'My goodness that was difficult',
@@ -22,7 +22,7 @@ const loggedExercise2 = new LoggedExercise({
 	setsPlanned: 4,
 	repsPlanned: [ 8, 2, 2, 2 ],
 	setsActual: 3,
-	repsActual: [ 5, 8, 8 ],
+	repsActual: [ { reps: 20, weight: 40 }, { reps: 18, weight: 75 }, { reps: 16, weight: 80 } ],
 	exercise: exercises[1],
 	modification: modifications[0],
 	comments: 'Personal best',

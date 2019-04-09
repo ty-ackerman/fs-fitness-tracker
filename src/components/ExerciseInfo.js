@@ -11,26 +11,27 @@ export class ExerciseInfo extends Component {
 		this.setState({ expandedView: !this.state.expandedView });
 	};
 
-	deleteExercise = async () => {
-		try {
-			const { _id } = this.props.exercise;
-			const res = await axios({
-				method: 'delete',
-				url: `/exercises/${_id}`
-			});
-			await this.patchWorkout();
-			await this.props.getExercises();
-			console.log(res);
-		} catch (error) {
-			console.log(error);
-		}
-	};
+	// deleteExercise = async () => {
+	// 	try {
+	// 		const { _id } = this.props.exercise;
+	// 		const res = await axios({
+	// 			method: 'delete',
+	// 			url: `/exercises/${_id}`
+	// 		});
+	// 		await this.patchWorkout();
+	// 		await this.props.getExercises();
+	// 		console.log(res);
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
 
 	patchWorkout = async () => {
 		const { exercises, index, day_id } = this.props;
 		exercises.splice(index, 1);
 		try {
 			const res = await axios.patch(`/workouts/delete-exercise/${day_id}`, { exercises });
+			await this.props.getExercises();
 			console.log(res);
 		} catch (error) {
 			console.log(error);
@@ -43,10 +44,10 @@ export class ExerciseInfo extends Component {
 		if (exercise) {
 			return (
 				<div>
-					<p onClick={this.expand}>{exercise.exercise.name}</p>
-					{expandedView ? (
-						<ExerciseMoreDetails deleteExercise={this.deleteExercise} exercise={exercise} />
-					) : null}
+					<p style={{ color: 'royalblue', cursor: 'pointer' }} onClick={this.expand}>
+						{exercise.exercise.name}
+					</p>
+					{expandedView ? <ExerciseMoreDetails patchWorkout={this.patchWorkout} exercise={exercise} /> : null}
 				</div>
 			);
 		}

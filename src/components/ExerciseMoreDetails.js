@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import ExerciseMoreDetailsPlanned from './ExerciseMoreDetailsPlanned';
+import ExerciseMoreDetailsLog from './ExerciseMoreDetailsLog';
 
 export class ExerciseMoreDetails extends Component {
 	state = {
@@ -10,26 +12,22 @@ export class ExerciseMoreDetails extends Component {
 	};
 
 	renderReps = (repsArray) => {
-		const repsString = repsArray.join(' - ');
+		const repsString = repsArray.join('-');
 		return repsString;
 	};
 
 	render() {
 		const { editView } = this.state;
 		const { exercise } = this.props;
-		if (!editView) {
-			return (
-				<div>
-					<p>{`Sets Planned: ${exercise.setsPlanned}`}</p>
-					<p>{`Reps Planned: ${this.renderReps(exercise.repsPlanned)}`}</p>
-					<button onClick={this.props.deleteExercise}>Delete Exercise</button>
-					<button onClick={this.toggleEditView}>Log Exercise</button>
-				</div>
-			);
-		}
 		return (
 			<div>
-				<p>Edit View</p>
+				<ExerciseMoreDetailsPlanned
+					exercise={exercise}
+					toggleEditView={this.toggleEditView}
+					patchWorkout={this.props.patchWorkout}
+					renderReps={this.renderReps}
+				/>
+				{editView === true ? <ExerciseMoreDetailsLog exercise={exercise} /> : null}
 			</div>
 		);
 	}
