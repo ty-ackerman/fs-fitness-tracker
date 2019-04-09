@@ -27,7 +27,7 @@ export class ExerciseMoreDetails extends Component {
 					patchWorkout={this.props.patchWorkout}
 					renderReps={this.renderReps}
 				/>
-				{editView === true ? <ExerciseMoreDetailsLog exercise={exercise} /> : null}
+				{editView === true ? <ExerciseMoreDetailsLog exercise={exercise} day_id={this.props.day_id} /> : null}
 			</div>
 		);
 	}

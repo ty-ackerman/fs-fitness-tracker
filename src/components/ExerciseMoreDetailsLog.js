@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import RepEdit from './RepEdit';
 
 export class ExerciseMoreDetailsLog extends Component {
 	state = {
@@ -21,6 +22,7 @@ export class ExerciseMoreDetailsLog extends Component {
 
 	toggleEditView = (index) => {
 		const { editView } = this.state;
+		console.log(index);
 		editView[index].edit = !editView[index].edit;
 		this.setState({ editView });
 	};
@@ -30,6 +32,8 @@ export class ExerciseMoreDetailsLog extends Component {
 		// 2 - User edits reps previously entered
 		// 3 - User does additional reps and therefore needs to add
 		// 4 - User doesn't do planned amount of reps (maybe just leave blank?)
+
+		// NOTE - There should be separate components for edit view and regular view, as well as to handle the view for when a workout has been added
 		const { exercise } = this.props;
 		const { editView } = this.state;
 		if (editView.length) {
@@ -39,11 +43,17 @@ export class ExerciseMoreDetailsLog extends Component {
 					<div>
 						{exercise.repsPlanned.map((rep, index) => {
 							return editView[index].edit ? (
-								<div key={index}>Works</div>
+								<RepEdit
+									key={index}
+									index={index}
+									rep={rep}
+									day_id={this.props.day_id}
+									toggleEditView={this.toggleEditView}
+								/>
 							) : (
 								<p
 									onClick={() => this.toggleEditView(index)}
-									style={{ color: 'limegreen', cursor: 'pointer' }}
+									style={{ color: 'red', cursor: 'pointer' }}
 									key={index}
 								>{`Set #${index + 1} - Target Reps: ${rep}`}</p>
 							);

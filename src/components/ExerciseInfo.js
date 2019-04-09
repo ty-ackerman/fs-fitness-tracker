@@ -11,21 +11,6 @@ export class ExerciseInfo extends Component {
 		this.setState({ expandedView: !this.state.expandedView });
 	};
 
-	// deleteExercise = async () => {
-	// 	try {
-	// 		const { _id } = this.props.exercise;
-	// 		const res = await axios({
-	// 			method: 'delete',
-	// 			url: `/exercises/${_id}`
-	// 		});
-	// 		await this.patchWorkout();
-	// 		await this.props.getExercises();
-	// 		console.log(res);
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 	}
-	// };
-
 	patchWorkout = async () => {
 		const { exercises, index, day_id } = this.props;
 		exercises.splice(index, 1);
@@ -47,7 +32,13 @@ export class ExerciseInfo extends Component {
 					<p style={{ color: 'royalblue', cursor: 'pointer' }} onClick={this.expand}>
 						{exercise.exercise.name}
 					</p>
-					{expandedView ? <ExerciseMoreDetails patchWorkout={this.patchWorkout} exercise={exercise} /> : null}
+					{expandedView ? (
+						<ExerciseMoreDetails
+							patchWorkout={this.patchWorkout}
+							exercise={exercise}
+							day_id={this.props.day_id}
+						/>
+					) : null}
 				</div>
 			);
 		}
