@@ -2,14 +2,18 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import RepEdit from './RepEdit';
 import RepDisplay from './RepDisplay';
+import AppendSet from './AppendSet';
 
 export class ExerciseMoreDetailsLog extends Component {
 	state = {
-		editView: []
+		editView: [],
+		completed: false,
+		addingNewSet: false
 	};
 
 	componentDidMount() {
 		this.setEditViewState();
+		this.checkIfCompleted();
 	}
 
 	setEditViewState = () => {
@@ -26,16 +30,25 @@ export class ExerciseMoreDetailsLog extends Component {
 		editView[index].edit = !editView[index].edit;
 		this.setState({ editView });
 	};
-	render() {
-		// Scenarios:
-		// 1 - User enters reps from scratch (nothing previously logged)
-		// 2 - User edits reps previously entered
-		// 3 - User does additional reps and therefore needs to add
-		// 4 - User doesn't do planned amount of reps (maybe just leave blank?)
 
-		// NOTE - There should be separate components for edit view and regular view, as well as to handle the view for when a workout has been added
+	checkIfCompleted = () => {
+		const { repsActual } = this.props.exercise;
+		let completed = true;
+		repsActual.map((set) => {
+			if (!set.reps) {
+				completed = false;
+			}
+		});
+		this.setState({ completed });
+	};
+
+	toggleNewSet = () => {
+		this.setState({ addingNewSet: !this.state.addingNewSet });
+	};
+
+	render() {
 		const { exercise } = this.props;
-		const { editView } = this.state;
+		const { editView, completed, addingNewSet } = this.state;
 		if (editView.length) {
 			return (
 				<div>
@@ -52,6 +65,7 @@ export class ExerciseMoreDetailsLog extends Component {
 									exercise={exercise}
 									allExercises={this.props.allExercises}
 									exerciseOrder={this.props.exerciseOrder}
+									checkIfCompleted={this.checkIfCompleted}
 								/>
 							) : (
 								<RepDisplay
@@ -63,7 +77,9 @@ export class ExerciseMoreDetailsLog extends Component {
 								/>
 							);
 						})}
+						{addingNewSet ? <AppendSet exercise={exercise} /> : null}
 					</div>
+					{completed ? <button onClick={this.toggleNewSet}>Add New Set</button> : null}
 				</div>
 			);
 		}

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 export class RepDisplay extends Component {
-	componentDidMount() {
-		console.log(this.props.exercise.repsActual[this.props.index]);
-	}
+	state = {
+		completed: false
+	};
 
 	render() {
 		const { rep, index, toggleEditView, exercise } = this.props;

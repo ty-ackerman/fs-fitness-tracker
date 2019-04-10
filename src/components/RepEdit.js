@@ -39,10 +39,11 @@ export class RepEdit extends Component {
 	handleSubmit = async (e) => {
 		e.preventDefault();
 		const exercises = this.updateEntireExercise();
-		const { day_id, index, toggleEditView } = this.props;
+		const { day_id, index, toggleEditView, checkIfCompleted } = this.props;
 		try {
 			const res = await axios.patch(`/workouts/log-exercise/${day_id}`, { exercises });
 			toggleEditView(index);
+			checkIfCompleted()
 		} catch (error) {
 			console.log(error);
 		}

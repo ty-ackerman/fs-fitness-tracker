@@ -36,6 +36,7 @@ export class ExerciseMoreDetails extends Component {
 						exerciseOrder={this.props.exerciseOrder}
 					/>
 				) : null}
+				<button onClick={this.props.expand}>Close</button>
 			</div>
 		);
 	}
