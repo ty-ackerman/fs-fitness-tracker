@@ -13,12 +13,37 @@ export class RepEdit extends Component {
 		});
 	};
 
+	updateRepsActual = (index) => {
+		const { repsActual } = this.props.exercise;
+		const { reps, weight } = this.state;
+		repsActual.map((set) => {
+			if (set.set === index) {
+				set.reps = reps;
+				set.weight = weight;
+			}
+		});
+		return repsActual;
+	};
+
+	updateEntireExercise = () => {
+		const { index, allExercises, exercise } = this.props;
+		const repsActual = this.updateRepsActual(index + 1);
+		console.log(repsActual);
+		allExercises.map((item) => {
+			if (item._id === exercise._id) {
+				item.repsActual = repsActual;
+			}
+		});
+		return allExercises;
+	};
+
 	handleSubmit = async (e) => {
 		e.preventDefault();
-		const { reps, weight } = this.state;
-		const { exercise, toggleEditView, index } = this.props;
+		const exercises = this.updateEntireExercise();
+		const { day_id, index, toggleEditView } = this.props;
+		console.log(exercises);
 		try {
-			const res = await axios.patch(`/exercises/log-exercise/${exercise._id}`, { reps, weight });
+			const res = await axios.patch(`/workouts/log-exercise/${day_id}`, { exercises });
 			console.log(res.data.data);
 			toggleEditView(index);
 		} catch (error) {

@@ -50,6 +50,8 @@ export class ExerciseMoreDetailsLog extends Component {
 									day_id={this.props.day_id}
 									toggleEditView={this.toggleEditView}
 									exercise={exercise}
+									allExercises={this.props.allExercises}
+									exerciseOrder={this.props.exerciseOrder}
 								/>
 							) : (
 								<p

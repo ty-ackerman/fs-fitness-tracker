@@ -32,15 +32,4 @@ router.delete('/:exercise_id', async (req, res, next) => {
 	}
 });
 
-router.patch('/log-exercise/:exercise_id', async (req, res, next) => {
-	try {
-		const { reps, weight } = req.body;
-		const { exercise_id } = req.params;
-		const doc = LoggedExercise.findByIdAndUpdate(exercise_id, { reps, weight });
-		res.status(200).send({ data: [ doc ] });
-	} catch (err) {
-		next(err);
-	}
-});
-
 module.exports = router;

@@ -37,6 +37,8 @@ export class ExerciseInfo extends Component {
 							patchWorkout={this.patchWorkout}
 							exercise={exercise}
 							day_id={this.props.day_id}
+							allExercises={this.props.exercises}
+							exerciseOrder={this.props.index}
 						/>
 					) : null}
 				</div>

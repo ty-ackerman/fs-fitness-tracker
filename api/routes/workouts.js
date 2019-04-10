@@ -79,4 +79,15 @@ router.patch('/delete-exercise/:workout_id', async (req, res, next) => {
 	}
 });
 
+router.patch('/log-exercise/:day_id', async (req, res, next) => {
+	try {
+		const { exercises } = req.body;
+		const { day_id } = req.params;
+		const doc = await Workout.findByIdAndUpdate(day_id, { exercises });
+		res.status(200).send({ data: [ doc ] });
+	} catch (err) {
+		next(err);
+	}
+});
+
 module.exports = router;

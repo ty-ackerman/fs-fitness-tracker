@@ -26,8 +26,16 @@ export class ExerciseMoreDetails extends Component {
 					toggleEditView={this.toggleEditView}
 					patchWorkout={this.props.patchWorkout}
 					renderReps={this.renderReps}
+					allExercises={this.props.allExercises}
 				/>
-				{editView === true ? <ExerciseMoreDetailsLog exercise={exercise} day_id={this.props.day_id} /> : null}
+				{editView === true ? (
+					<ExerciseMoreDetailsLog
+						exercise={exercise}
+						day_id={this.props.day_id}
+						allExercises={this.props.allExercises}
+						exerciseOrder={this.props.exerciseOrder}
+					/>
+				) : null}
 			</div>
 		);
 	}

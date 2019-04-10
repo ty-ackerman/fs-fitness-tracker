@@ -31,7 +31,7 @@ export class Exercises extends Component {
 		const { loggedExercise } = this.state;
 		const { setsPlanned } = loggedExercise;
 		for (let set = 0; set < setsPlanned; set++) {
-			repsActual.push({ reps: null, weight: null });
+			repsActual.push({ set: set + 1, reps: null, weight: null });
 		}
 		loggedExercise.repsActual = repsActual;
 		loggedExercise.setsActual = repsActual.length;
