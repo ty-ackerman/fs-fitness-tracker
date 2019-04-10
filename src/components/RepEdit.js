@@ -28,7 +28,6 @@ export class RepEdit extends Component {
 	updateEntireExercise = () => {
 		const { index, allExercises, exercise } = this.props;
 		const repsActual = this.updateRepsActual(index + 1);
-		console.log(repsActual);
 		allExercises.map((item) => {
 			if (item._id === exercise._id) {
 				item.repsActual = repsActual;
@@ -41,10 +40,8 @@ export class RepEdit extends Component {
 		e.preventDefault();
 		const exercises = this.updateEntireExercise();
 		const { day_id, index, toggleEditView } = this.props;
-		console.log(exercises);
 		try {
 			const res = await axios.patch(`/workouts/log-exercise/${day_id}`, { exercises });
-			console.log(res.data.data);
 			toggleEditView(index);
 		} catch (error) {
 			console.log(error);
@@ -52,7 +49,7 @@ export class RepEdit extends Component {
 	};
 
 	render() {
-		const { rep } = this.props;
+		const { rep, index } = this.props;
 		return (
 			<form onSubmit={this.handleSubmit}>
 				<label htmlFor="reps">
@@ -72,6 +69,7 @@ export class RepEdit extends Component {
 					<input onChange={this.handleChange} type="number" min={0} id="weight" name="weight" required />
 				</label>
 				<input type="submit" value="Log" />
+				<button onClick={() => this.props.toggleEditView(index)}>Cancel</button>
 			</form>
 		);
 	}

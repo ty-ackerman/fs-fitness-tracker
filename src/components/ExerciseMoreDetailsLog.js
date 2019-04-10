@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import RepEdit from './RepEdit';
+import RepDisplay from './RepDisplay';
 
 export class ExerciseMoreDetailsLog extends Component {
 	state = {
@@ -22,7 +23,6 @@ export class ExerciseMoreDetailsLog extends Component {
 
 	toggleEditView = (index) => {
 		const { editView } = this.state;
-		console.log(index);
 		editView[index].edit = !editView[index].edit;
 		this.setState({ editView });
 	};
@@ -54,11 +54,13 @@ export class ExerciseMoreDetailsLog extends Component {
 									exerciseOrder={this.props.exerciseOrder}
 								/>
 							) : (
-								<p
-									onClick={() => this.toggleEditView(index)}
-									style={{ color: 'red', cursor: 'pointer' }}
+								<RepDisplay
 									key={index}
-								>{`Set #${index + 1} - Target Reps: ${rep}`}</p>
+									toggleEditView={this.toggleEditView}
+									index={index}
+									rep={rep}
+									exercise={exercise}
+								/>
 							);
 						})}
 					</div>

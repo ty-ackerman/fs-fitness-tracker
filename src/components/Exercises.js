@@ -47,7 +47,6 @@ export class Exercises extends Component {
 				timeout: 3 * 1000
 			});
 			await this.setState({ currentDay: currentDay.data.data });
-			console.log(this.state.currentDay);
 		} catch (error) {
 			console.log(error);
 		}
@@ -154,7 +153,6 @@ export class Exercises extends Component {
 			await this.getExercises();
 			await this.clearInputs();
 			await this.togglePopup();
-			console.log(newLoggedExercise.data.data);
 		} catch (error) {
 			console.log(error);
 		}
