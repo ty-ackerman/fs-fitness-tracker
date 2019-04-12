@@ -32,4 +32,33 @@ router.delete('/:exercise_id', async (req, res, next) => {
 	}
 });
 
+router.patch('/:exercise_id', async (req, res, next) => {
+	try {
+		const { exercise_id } = req.params;
+		const { repsActual } = req.body;
+		const doc = await LoggedExercise.findByIdAndUpdate(exercise_id, { repsActual });
+		res.status(200).send({ data: doc });
+	} catch (error) {
+		next(error);
+	}
+});
+
+router.post('/', async (req, res, next) => {
+	try {
+		const { setsPlanned, repsPlanned, repsActual, setsActual, exercise, modification, tempo, rest } = req.body;
+		const doc = await new LoggedExercise({
+			setsPlanned,
+			repsPlanned,
+			repsActual,
+			setsActual,
+			exercise,
+			modification,
+			tempo,
+			rest
+		});
+		res.status(200).send({ data: doc });
+	} catch (error) {
+		next(error);
+	}
+});
 module.exports = router;

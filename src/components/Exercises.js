@@ -124,6 +124,33 @@ export class Exercises extends Component {
 		this.setState({ loggedExercise });
 	};
 
+	addExerciseToLibrary = async (
+		setsPlanned,
+		repsPlanned,
+		repsActual,
+		setsActual,
+		exercise,
+		modification,
+		tempo,
+		rest
+	) => {
+		try {
+			const res = await axios.post('/exercises', {
+				setsPlanned,
+				repsPlanned,
+				repsActual,
+				setsActual,
+				exercise,
+				modification,
+				tempo,
+				rest
+			});
+			console.log(res);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	addLoggedExercise = async (e) => {
 		e.preventDefault();
 		try {
@@ -141,6 +168,16 @@ export class Exercises extends Component {
 			// console.log(this.state.currentDay);
 			const currentDayId = this.state.currentDay._id;
 			const allExercises = this.state.exercises;
+			await this.addExerciseToLibrary(
+				parseInt(setsPlanned),
+				repsPlanned,
+				repsActual,
+				setsActual,
+				exercise,
+				modification,
+				tempo,
+				parseInt(rest)
+			);
 			const newLoggedExercise = await axios.patch(`/workouts/add-workout/${currentDayId}`, {
 				setsPlanned: parseInt(setsPlanned),
 				repsPlanned,
