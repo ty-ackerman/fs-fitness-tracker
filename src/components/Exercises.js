@@ -23,7 +23,9 @@ export class Exercises extends Component {
 			rest: 60,
 			comments: ''
 		},
-		loading: true
+		loading: true,
+		addNew: false,
+		queriedExercise: null
 	};
 
 	formatRepsActual = () => {
@@ -161,11 +163,22 @@ export class Exercises extends Component {
 	cancelLog = () => {
 		const { loggedExercise } = this.state;
 		loggedExercise.exercise = null;
-		this.setState({ displayPopup: false, loggedExercise });
+		this.setState({ displayPopup: false, loggedExercise, addNew: false });
+	};
+
+	addNewToggle = () => {
+		console.log('clicked');
+		this.setState({ addNew: !this.state.addnew });
+	};
+
+	updateQueriedExercise = (e) => {
+		if (e.target.name === 'name') {
+			this.setState({ queriedExercise: e.target.value });
+		}
 	};
 
 	render() {
-		const { exercises, currentDay, displayPopup, loggedExercise, loading } = this.state;
+		const { exercises, currentDay, displayPopup, loggedExercise, loading, addNew } = this.state;
 		if (exercises && currentDay) {
 			const { name, day } = currentDay;
 			return (
@@ -191,13 +204,27 @@ export class Exercises extends Component {
 					<div>
 						<Link to={`/${this.props.match.params.week_id}`}>Back</Link>
 					</div>
-					{displayPopup && !loggedExercise.exercise ? (
+
+					{displayPopup && !loggedExercise.exercise ? !addNew ? (
 						<React.Fragment>
-							<FindExercise addQueriedExercise={this.addQueriedExercise} />
-							<AddExercise getSubmittedValues={this.getSubmittedValues} />
+							<FindExercise
+								addQueriedExercise={this.addQueriedExercise}
+								addNewToggle={this.addNewToggle}
+								updateQueriedExercise={this.updateQueriedExercise}
+							/>
+							<button onClick={this.cancelLog}>Cancel</button>
+						</React.Fragment>
+					) : (
+						<React.Fragment>
+							<AddExercise
+								getSubmittedValues={this.getSubmittedValues}
+								addNewToggle={this.addNewToggle}
+								queriedExercise={this.state.queriedExercise}
+							/>
 							<button onClick={this.cancelLog}>Cancel</button>
 						</React.Fragment>
 					) : null}
+
 					{displayPopup && loggedExercise.exercise ? (
 						<React.Fragment>
 							<AddLoggedExercise

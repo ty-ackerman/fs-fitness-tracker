@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import SearchedExercise from './SearchedExercise';
+import NoResults from './NoResults';
 
 export class FindExercise extends Component {
 	state = {
@@ -21,6 +22,7 @@ export class FindExercise extends Component {
 		this.setState({
 			[e.target.name]: e.target.value
 		});
+		this.props.updateQueriedExercise(e);
 	};
 
 	handleLoading = async () => {
@@ -47,7 +49,14 @@ export class FindExercise extends Component {
 				<form onSubmit={this.handleSubmit}>
 					<label htmlFor="name">
 						Exercise Name:
-						<input type="text" name="name" id="name" onChange={this.handleChange} autoComplete="off" required />
+						<input
+							type="text"
+							name="name"
+							id="name"
+							onChange={this.handleChange}
+							autoComplete="off"
+							required
+						/>
 						<input type="submit" value="Search For Exercise" />
 					</label>
 				</form>
@@ -61,7 +70,7 @@ export class FindExercise extends Component {
 					);
 				})}
 				{loading && !queried ? <p>Loading</p> : null}
-				{!loading && queried && res.length === 0 ? <p>No results found</p> : null}
+				{!loading && queried && res.length === 0 ? <NoResults addNewToggle={this.props.addNewToggle} /> : null}
 			</div>
 		);
 	}

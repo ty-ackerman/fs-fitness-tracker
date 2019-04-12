@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export class AddExercise extends Component {
 	state = {
-		name: 'Front Squat',
+		name: this.props.queriedExercise,
 		primaryMuscle: 'Quadriceps',
 		secondaryMuscle: 'Hamstrings',
 		comments: 'Ass to the grass'
@@ -40,15 +40,7 @@ export class AddExercise extends Component {
 				<form onSubmit={this.addExercise}>
 					<label htmlFor="name">
 						Exercise Name
-						<input
-							onChange={this.handleChange}
-							type="text"
-							id="name"
-							name="name"
-							defaultValue="Front Squat"
-							required
-							autoComplete="off"
-						/>
+						<input type="text" id="name" name="name" value={this.props.queriedExercise} disabled />
 					</label>
 					<br />
 					<label htmlFor="primaryMuscle">
@@ -92,6 +84,8 @@ export class AddExercise extends Component {
 						<input type="submit" value="Add Exercise" />
 					</div>
 				</form>
+				{/* For some reason the button below keeps submitting */}
+				{/* <button onClick={this.props.addNewToggle}>Change Name</button> */}
 			</div>
 		);
 	}

@@ -1,17 +1,26 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 export class AppendSet extends Component {
 	state = {
 		reps: 8,
-		weight: null
+		weight: null,
+		set: this.props.exercise.repsActual.length + 1
 	};
 
 	handleChange = (e) => {
 		this.setState({ [e.target.name]: parseInt(e.target.value) });
 	};
 
-	handleSubmit = (e) => {
+	handleSubmit = async (e) => {
 		e.preventDefault();
+		const { reps, weight, set } = this.state;
+		const newSet = {
+			reps,
+			weight,
+			set
+		};
+		console.log(newSet);
 	};
 
 	render() {
