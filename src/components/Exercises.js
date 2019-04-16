@@ -18,7 +18,7 @@ export class Exercises extends Component {
 			repsActual: [],
 			setsActual: null,
 			exercise: null,
-			modification: 'none',
+			modification: null,
 			tempo: '1-0-1-0',
 			rest: 60,
 			comments: ''
@@ -145,7 +145,7 @@ export class Exercises extends Component {
 				tempo,
 				rest
 			});
-			console.log(res);
+			return res.data.data;
 		} catch (error) {
 			console.log(error);
 		}
@@ -165,10 +165,8 @@ export class Exercises extends Component {
 				tempo,
 				rest
 			} = this.state.loggedExercise;
-			// console.log(this.state.currentDay);
 			const currentDayId = this.state.currentDay._id;
-			const allExercises = this.state.exercises;
-			await this.addExerciseToLibrary(
+			const newLoggedExercise = await this.addExerciseToLibrary(
 				parseInt(setsPlanned),
 				repsPlanned,
 				repsActual,
@@ -178,17 +176,13 @@ export class Exercises extends Component {
 				tempo,
 				parseInt(rest)
 			);
-			const newLoggedExercise = await axios.patch(`/workouts/add-workout/${currentDayId}`, {
-				setsPlanned: parseInt(setsPlanned),
-				repsPlanned,
-				exercise,
-				modification,
-				tempo,
-				rest: parseInt(rest),
-				allExercises,
-				repsActual,
-				setsActual
+			const { exercises } = this.state;
+			exercises.push(newLoggedExercise);
+			console.log(exercises);
+			const res = await axios.patch(`/workouts/add-workout/${currentDayId}`, {
+				exercises
 			});
+			console.log(res.data.data);
 			await this.getExercises();
 			await this.clearInputs();
 			await this.togglePopup();

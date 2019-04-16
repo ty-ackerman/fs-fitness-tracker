@@ -16,8 +16,10 @@ export class RepEdit extends Component {
 	updateRepsActual = (index) => {
 		const { repsActual } = this.props.exercise;
 		const { reps, weight } = this.state;
+		console.log(repsActual, reps, weight, index);
 		repsActual.map((set) => {
 			if (set.set === index) {
+				console.log(set);
 				set.reps = reps;
 				set.weight = weight;
 			}
@@ -25,25 +27,31 @@ export class RepEdit extends Component {
 		return repsActual;
 	};
 
-	updateEntireExercise = () => {
-		const { index, allExercises, exercise } = this.props;
-		const repsActual = this.updateRepsActual(index + 1);
-		allExercises.map((item) => {
-			if (item._id === exercise._id) {
-				item.repsActual = repsActual;
-			}
-		});
-		return allExercises;
-	};
+	// updateEntireExercise = () => {
+	// 	const { index, allExercises, exercise } = this.props;
+	// 	const repsActual = this.updateRepsActual(index + 1);
+	// 	allExercises.map((item) => {
+	// 		if (item._id === exercise._id) {
+	// 			item.repsActual = repsActual;
+	// 		}
+	// 	});
+	// 	return allExercises;
+	// };
 
 	handleSubmit = async (e) => {
 		e.preventDefault();
-		const exercises = this.updateEntireExercise();
-		const { day_id, index, toggleEditView, checkIfCompleted } = this.props;
+		// const exercises = this.updateEntireExercise();
+		const { index, toggleEditView, checkIfCompleted, updateWorkoutDay } = this.props;
+		const repsActual = this.updateRepsActual(index + 1);
+		const exercise_id = this.props.exercise._id;
 		try {
-			const res = await axios.patch(`/workouts/log-exercise/${day_id}`, { exercises });
+			// remember to get rid of workouts/log-exercises
+			const res = await axios.patch(`/exercises/log-exercise/${exercise_id}`, { repsActual });
 			toggleEditView(index);
-			checkIfCompleted()
+			checkIfCompleted();
+			await updateWorkoutDay();
+
+			//Here I will put the formula to uptdate the exercises in this days workouts passed through props from exercisemoredetailslog
 		} catch (error) {
 			console.log(error);
 		}

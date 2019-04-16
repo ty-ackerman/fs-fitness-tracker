@@ -38,30 +38,9 @@ router.post('/', async (req, res, next) => {
 
 router.patch('/add-workout/:workout_id', async (req, res, next) => {
 	try {
-		const {
-			setsPlanned,
-			repsPlanned,
-			repsActual,
-			exercise,
-			modification,
-			tempo,
-			rest,
-			allExercises,
-			setsActual
-		} = req.body;
+		const { exercises } = req.body;
 		const { workout_id } = req.params;
-		const newLoggedExercise = new LoggedExercise({
-			setsPlanned,
-			repsPlanned,
-			repsActual,
-			exercise,
-			modification,
-			tempo,
-			rest,
-			setsActual
-		});
-		allExercises.push(newLoggedExercise);
-		const doc = await Workout.findByIdAndUpdate(workout_id, { exercises: allExercises });
+		const doc = await Workout.findByIdAndUpdate(workout_id, { exercises: exercises });
 		res.status(200).send({ data: doc });
 	} catch (err) {
 		next(err);
@@ -76,17 +55,6 @@ router.patch('/delete-exercise/:workout_id', async (req, res, next) => {
 		res.status(200).send({ data: [ doc ] });
 	} catch (error) {
 		next(error);
-	}
-});
-
-router.patch('/log-exercise/:day_id', async (req, res, next) => {
-	try {
-		const { exercises } = req.body;
-		const { day_id } = req.params;
-		const doc = await Workout.findByIdAndUpdate(day_id, { exercises });
-		res.status(200).send({ data: [ doc ] });
-	} catch (err) {
-		next(err);
 	}
 });
 

@@ -46,6 +46,17 @@ export class ExerciseMoreDetailsLog extends Component {
 		this.setState({ addingNewSet: !this.state.addingNewSet });
 	};
 
+	updateWorkoutDay = async () => {
+		//This function will be called when the user updates the reps for their workout
+		const { allExercises, day_id } = this.props;
+		try {
+			const res = await axios.patch(`/workouts/add-workout/${day_id}`, { exercises: allExercises });
+			console.log(res);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	render() {
 		const { exercise } = this.props;
 		const { editView, completed, addingNewSet } = this.state;
@@ -66,6 +77,7 @@ export class ExerciseMoreDetailsLog extends Component {
 									allExercises={this.props.allExercises}
 									exerciseOrder={this.props.exerciseOrder}
 									checkIfCompleted={this.checkIfCompleted}
+									updateWorkoutDay={this.updateWorkoutDay}
 								/>
 							) : (
 								<RepDisplay
