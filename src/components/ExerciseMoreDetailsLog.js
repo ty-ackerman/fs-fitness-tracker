@@ -16,16 +16,17 @@ export class ExerciseMoreDetailsLog extends Component {
 		this.checkIfCompleted();
 	}
 
-	setEditViewState = () => {
+	setEditViewState = (reps) => {
 		const editView = [];
-		const { repsPlanned } = this.props.exercise;
-		repsPlanned.map((rep, index) => {
+		const { repsActual } = this.props.exercise;
+		repsActual.map((rep, index) => {
 			editView.push({ edit: false });
 		});
 		this.setState({ editView });
 	};
 
 	toggleEditView = (index) => {
+		console.log(index, this.state.editView);
 		const { editView } = this.state;
 		editView[index].edit = !editView[index].edit;
 		this.setState({ editView });
@@ -51,9 +52,21 @@ export class ExerciseMoreDetailsLog extends Component {
 		const { allExercises, day_id } = this.props;
 		try {
 			const res = await axios.patch(`/workouts/add-workout/${day_id}`, { exercises: allExercises });
-			console.log(res);
 		} catch (err) {
 			console.log(err);
+		}
+	};
+
+	updateExerciseRepsActual = async (repsActual, exercise_id, index) => {
+		try {
+			const res = await axios.patch(`/exercises/log-exercise/${exercise_id}`, { repsActual });
+			await this.setEditViewState();
+			this.toggleEditView(index);
+			this.checkIfCompleted();
+			await this.updateWorkoutDay();
+			return res.data.data;
+		} catch (error) {
+			console.log(error);
 		}
 	};
 
@@ -65,19 +78,18 @@ export class ExerciseMoreDetailsLog extends Component {
 				<div>
 					Click the Set to Log:
 					<div>
-						{exercise.repsPlanned.map((rep, index) => {
+						{exercise.repsActual.map((rep, index) => {
 							return editView[index].edit ? (
 								<RepEdit
 									key={index}
 									index={index}
 									rep={rep}
 									day_id={this.props.day_id}
-									toggleEditView={this.toggleEditView}
 									exercise={exercise}
 									allExercises={this.props.allExercises}
 									exerciseOrder={this.props.exerciseOrder}
-									checkIfCompleted={this.checkIfCompleted}
-									updateWorkoutDay={this.updateWorkoutDay}
+									updateExerciseRepsActual={this.updateExerciseRepsActual}
+									toggleEditView={this.toggleEditView}
 								/>
 							) : (
 								<RepDisplay
@@ -89,7 +101,14 @@ export class ExerciseMoreDetailsLog extends Component {
 								/>
 							);
 						})}
-						{addingNewSet ? <AppendSet exercise={exercise} /> : null}
+						{addingNewSet ? (
+							<AppendSet
+								updateWorkoutDay={this.updateWorkoutDay}
+								exercise={exercise}
+								updateExerciseRepsActual={this.updateExerciseRepsActual}
+								index={exercise.repsActual.length}
+							/>
+						) : null}
 					</div>
 					{completed ? <button onClick={this.toggleNewSet}>Add New Set</button> : null}
 				</div>

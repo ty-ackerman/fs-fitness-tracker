@@ -27,31 +27,15 @@ export class RepEdit extends Component {
 		return repsActual;
 	};
 
-	// updateEntireExercise = () => {
-	// 	const { index, allExercises, exercise } = this.props;
-	// 	const repsActual = this.updateRepsActual(index + 1);
-	// 	allExercises.map((item) => {
-	// 		if (item._id === exercise._id) {
-	// 			item.repsActual = repsActual;
-	// 		}
-	// 	});
-	// 	return allExercises;
-	// };
-
 	handleSubmit = async (e) => {
 		e.preventDefault();
 		// const exercises = this.updateEntireExercise();
-		const { index, toggleEditView, checkIfCompleted, updateWorkoutDay } = this.props;
+		const { index, updateExerciseRepsActual } = this.props;
 		const repsActual = this.updateRepsActual(index + 1);
 		const exercise_id = this.props.exercise._id;
 		try {
-			// remember to get rid of workouts/log-exercises
-			const res = await axios.patch(`/exercises/log-exercise/${exercise_id}`, { repsActual });
-			toggleEditView(index);
-			checkIfCompleted();
-			await updateWorkoutDay();
-
-			//Here I will put the formula to uptdate the exercises in this days workouts passed through props from exercisemoredetailslog
+			const res = updateExerciseRepsActual(repsActual, exercise_id, index);
+			console.log(res);
 		} catch (error) {
 			console.log(error);
 		}

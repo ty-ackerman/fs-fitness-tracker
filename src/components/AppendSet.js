@@ -15,22 +15,17 @@ export class AppendSet extends Component {
 	handleSubmit = async (e) => {
 		e.preventDefault();
 		const { reps, weight, set } = this.state;
-		const { repsActual } = this.props.exercise;
+		const { repsActual, _id } = this.props.exercise;
+		const { index, updateExerciseRepsActual } = this.props;
 		const newSet = {
 			reps,
 			weight,
 			set
 		};
 		repsActual.push(newSet);
-		console.log(repsActual);
 		try {
-			// const res = axios({
-			// 	url= `/exercises/${}`,
-			// 	method: "patch",
-			// 	timeout: 3 * 1000,
-			// 	body:
-			// })
-			// console.log(res);
+			const res = await updateExerciseRepsActual(repsActual, _id, index);
+			console.log(res);
 		} catch (error) {
 			console.log(error);
 		}
