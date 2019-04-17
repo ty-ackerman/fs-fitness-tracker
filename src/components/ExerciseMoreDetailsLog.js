@@ -83,7 +83,7 @@ export class ExerciseMoreDetailsLog extends Component {
 								<RepEdit
 									key={index}
 									index={index}
-									rep={rep}
+									rep={exercise.repsPlanned[index]}
 									day_id={this.props.day_id}
 									exercise={exercise}
 									allExercises={this.props.allExercises}
@@ -96,7 +96,7 @@ export class ExerciseMoreDetailsLog extends Component {
 									key={index}
 									toggleEditView={this.toggleEditView}
 									index={index}
-									rep={rep}
+									rep={exercise.repsPlanned[index]}
 									exercise={exercise}
 								/>
 							);
@@ -107,6 +107,8 @@ export class ExerciseMoreDetailsLog extends Component {
 								exercise={exercise}
 								updateExerciseRepsActual={this.updateExerciseRepsActual}
 								index={exercise.repsActual.length}
+								toggleEditView={this.toggleEditView}
+								toggleNewSet={this.toggleNewSet}
 							/>
 						) : null}
 					</div>

@@ -30,12 +30,13 @@ export class RepEdit extends Component {
 	handleSubmit = async (e) => {
 		e.preventDefault();
 		// const exercises = this.updateEntireExercise();
-		const { index, updateExerciseRepsActual } = this.props;
+		const { index, updateExerciseRepsActual, toggleEditView } = this.props;
 		const repsActual = this.updateRepsActual(index + 1);
 		const exercise_id = this.props.exercise._id;
 		try {
-			const res = updateExerciseRepsActual(repsActual, exercise_id, index);
+			const res = await updateExerciseRepsActual(repsActual, exercise_id, index);
 			console.log(res);
+			toggleEditView(index);
 		} catch (error) {
 			console.log(error);
 		}
